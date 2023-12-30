@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+        }
+
+        #banner-container {
+            position: relative;
+            width: calc(100% - 20px); /* Adjusted width to account for padding */
+            height: 30vh; /* Set the height as needed */
+            max-height: 300px; /* Set a maximum height if needed */
+            overflow: hidden;
+            border-bottom: 2px dashed #ccc;
+            margin-right: 20px; /* Added margin to the right side */
+        }
+
+        #banner-outline {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            box-sizing: border-box;
+            border: 2px dashed #aaa;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        #banner-preview {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #profile-container {
+            width: 150px; /* Set the width as needed */
+            height: 150px; /* Set the height as needed */
+            border-radius: 50%; /* Make the profile picture circular */
+            overflow: hidden;
+            position: absolute;
+            left: 20px; /* Adjust the left position as needed */
+            top: 50%; /* Align to the middle of the banner */
+            transform: translateY(-50%);
+            border: 2px dashed #ccc;
+        }
+
+        #profile-outline {
+            box-sizing: border-box;
+            border: 2px dashed #aaa;
+            border-radius: 50%;
+            padding: 10px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            position: relative;
+            margin-right: 20px; /* Added margin to the right side */
+        }
+
+        #profile-preview {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        #static-image-container {
+            width: 300px; /* Adjust the width as needed */
+            height: auto; /* Set the height to match the profile picture container */
+            overflow: hidden;
+            position: absolute;
+            left: calc(20px + 150px + 20px); /* Adjusted left position */
+            top: 50%; /* Align to the middle of the banner */
+            transform: translateY(-50%);
+        }
+
+        #static-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #file-input-banner,
+        #file-input-profile,
+        #file-input-static-image {
+            display: none;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const bannerContainer = document.getElementById('banner-container');
+            const bannerOutline = document.getElementById('banner-outline');
+            const bannerPreview = document.getElementById('banner-preview');
+            const profileContainer = document.getElementById('profile-container');
+            const profileOutline = document.getElementById('profile-outline');
+            const profilePreview = document.getElementById('profile-preview');
+            const staticImageContainer = document.getElementById('static-image-container');
+            const staticImage = document.getElementById('static-image');
+            const fileInputBanner = document.getElementById('file-input-banner');
+            const fileInputProfile = document.getElementById('file-input-profile');
+            const fileInputStaticImage = document.getElementById('file-input-static-image');
+
+            bannerContainer.addEventListener('click', function () {
+                fileInputBanner.click();
+            });
+
+            fileInputBanner.addEventListener('change', function (e) {
+                const file = e.target.files[0];
+
+                if (file && file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        bannerPreview.src = e.target.result;
+                    };
+
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            profileOutline.addEventListener('click', function () {
+                fileInputProfile.click();
+            });
+
+            fileInputProfile.addEventListener('change', function (e) {
+                const file = e.target.files[0];
+
+                if (file && file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        profilePreview.src = e.target.result;
+                    };
+
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // No need for event listeners for the static image since it's hardcoded
+        });
+    </script>
+</head>
+<body>
+    <div id="banner-container">
+        <div id="banner-outline"></div>
+        <img id="banner-preview">
+    </div>
+
+    <div id="profile-container">
+        <div id="profile-outline">
+            <img id="profile-preview">
+        </div>
+    </div>
+
+    <div id="static-image-container">
+        <!-- Hardcoded static image -->
+        <img id="static-image" src="static.png" alt="Static Image">
+    </div>
+
+    <input type="file" id="file-input-banner" accept="image/*">
+    <input type="file" id="file-input-profile" accept="image/*">
+    <!-- No need for file input for the static image since it's hardcoded -->
+</body>
+</html>
